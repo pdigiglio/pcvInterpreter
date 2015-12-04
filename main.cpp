@@ -14,6 +14,8 @@
 #include "LockMgr.h"
 #include "ThreadMgr.h"
 
+#include "dotTracker.h"
+
 
 int main(int argc, char* argv[]) {
 
@@ -37,7 +39,8 @@ int main(int argc, char* argv[]) {
 
 	// create and register tools
 	//RaceDetectionTool *raceTool = new RaceDetectionTool("races.json");
-	LockSetChecker *raceTool = new LockSetChecker("races.json");
+	//LockSetChecker *raceTool = new LockSetChecker("races.json");
+	DotTracker *raceTool = new DotTracker( "dummy.dot" );
 	runner->registerTool(raceTool, NULL, ALL);
 
 	// Start interpretation

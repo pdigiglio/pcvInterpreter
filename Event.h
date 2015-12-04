@@ -197,13 +197,18 @@ private:
 /******************************************************************************
  * Call Event
  *****************************************************************************/
+/**
+ * @brief Record containng info about the function call.
+ * @todo add a `fnLine` which tells the line the function was called from
+ */
 typedef struct CallInfo {
-	const double runtime;
+	const double runtime; //! @brief Execution time (__Not very reliable__) 
 	const char* fnSignature;
 	const Function::type fnType;
 	const char* fileName;
 	const char* filePath;
 
+	/** @brief Initializes `struct` members. */
 	CallInfo(const double Runtime,
 			 const char* FnSignature,
 			 const Function::type FnType,
