@@ -39,8 +39,6 @@ typedef std::string		REF_NAME;	//!< @brief  Reference name
 typedef unsigned		REF_MTYP;	//!< @brief  Memory type
 typedef unsigned		ACC_TYP;	//!< @brief  Access type
 typedef unsigned		FUN_TYP;	//!< @brief  Function type
-typedef unsigned		TRD_ID;		//!< @brief  Thread id (table)
-typedef unsigned		TRD_TID;	//!< @brief  Thread id (system)
 typedef unsigned        MEM_ST;     //!< @brief  Memory state
 typedef unsigned        LOP_ID;     //!< @brief  Loop ID
 typedef unsigned        LOE_ID;     //!< @brief  loopExecution id
@@ -72,7 +70,7 @@ typedef struct access_t {
 // Try to make a new struct for call_t as the database format has changed
 typedef struct call_t {
 	ID sql_id;
-	TRD_ID thread_id;
+	ID thread_id;
 	FUN_ID function_id;
 	INS_ID instruction_id;
 	TIME_TYP start_time;
@@ -80,7 +78,7 @@ typedef struct call_t {
 
 	explicit
 	call_t(ID sqlID,
-		   TRD_ID threadID,
+		   ID threadID,
 		   FUN_ID functionID,
 		   INS_ID instructionID,
 		   TIME_TYP startTime,
@@ -345,18 +343,18 @@ typedef struct segment_t {
 } segment_t;
 
 typedef struct thread_t {
-	TRD_ID id;
+	ID id; //!< @brief The same as SQL ID
 	int process_id;
 	INS_ID instruction_id;
-	TRD_TID	child_thread_id;
-	TRD_TID parent_thread_id;
+	ID	child_thread_id;
+	ID parent_thread_id;
 
 	explicit
-	thread_t(int id,
+	thread_t(ID id,
 			 int processId,
-			 int instructionId,
-			 int childThreadId,
-			 int parentThreadId)
+			 INS_ID instructionId,
+			 ID childThreadId,
+			 ID parentThreadId)
 		: id(id), process_id(processId), instruction_id(instructionId), 
 		  child_thread_id(childThreadId), parent_thread_id(parentThreadId) {}
 
