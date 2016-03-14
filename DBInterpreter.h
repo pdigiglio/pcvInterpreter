@@ -50,17 +50,17 @@ private:
 	typedef std::map<REF_ID, ShadowVar*> shadowVarMap_t;
 
 	// members-----------------------------------------------------------------
-	DBTable<ACC_ID, const access_t*> accessT_;
-	DBTable<CAL_ID, call_t> callT_;
-	DBTable<FIL_ID, file_t> fileT_;
-	DBTable<FUN_ID, function_t> functionT_;
-	DBTable<INS_ID, instruction_t> instructionT_;
-	DBTable<LOP_ID, loop_t> loopT_;
-    DBTable<LOE_ID, loopExecution_t> loopExecutionT_;
-	DBTable<REF_ID, reference_t> referenceT_;
-	DBTable<LOI_ID, loopIteration_t> loopIterationT_;
-	DBTable<SEG_ID, segment_t> segmentT_; 
-	DBTable<INS_ID, thread_t> threadT_;
+	DBTable<ACC_ID, access_t*> accessT_;
+	DBTable<CAL_ID, call_t*> callT_;
+	DBTable<FIL_ID, file_t*> fileT_;
+	DBTable<FUN_ID, function_t*> functionT_;
+	DBTable<INS_ID, instruction_t*> instructionT_;
+	DBTable<LOP_ID, loop_t*> loopT_;
+    DBTable<LOE_ID, loopExecution_t*> loopExecutionT_;
+	DBTable<REF_ID, reference_t*> referenceT_;
+	DBTable<LOI_ID, loopIteration_t*> loopIterationT_;
+	DBTable<SEG_ID, segment_t*> segmentT_; 
+	DBTable<INS_ID, thread_t*> threadT_;
 
 	insAccessMap_t _insAccessMap;
 	refNoIdMap_t _refNoIdMap;

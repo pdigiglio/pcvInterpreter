@@ -80,7 +80,7 @@ int DBInterpreter::process() {
 
 	// process database entries
 	for (auto instruction : instructionT_)
-		processInstruction(instruction.second);
+		processInstruction(*(instruction.second));
 
 	closeDB(&db);
 	return 0;
@@ -169,7 +169,7 @@ int DBInterpreter::processSegment(unsigned int segmentId,
 
 	auto search = callT_.find(seg.call_id);
 	if (search != callT_.end()) {
-		if (!processCall(seg.call_id, search->second, seg, ins))
+		if (!processCall(seg.call_id, *(search->second), seg, ins))
 			return 1;
 	} else {
 		BOOST_LOG_TRIVIAL(error) << "Call not found: " << seg.call_id;
@@ -187,23 +187,23 @@ int DBInterpreter::processCall(CAL_ID callId,
 	auto search = functionT_.find(call.function_id);
 	if (search != functionT_.end()) {
 
-		switch(search->second.type) {
+		switch(search->second->type) {
 		case Function::FUNCTION:
 		case Function::METHOD:
 		{
-			auto searchFile = fileT_.find(search->second.file_id);
+			auto searchFile = fileT_.find(search->second->file_id);
 			if (searchFile != fileT_.end()) {
 				CallInfo info( call.end_time, // todo: use runtime!
-							   search->second.signature,
-							   search->second.type,
-							   searchFile->second.file_name,
-							   searchFile->second.file_path);
+							   search->second->signature,
+							   search->second->type,
+							   searchFile->second->file_name,
+							   searchFile->second->file_path);
 
 				ShadowThread* thread = threadMgr_->getThread(call.thread_id);
 				CallEvent event(thread, &info);
 				_eventService->publish(&event);
 			} else {
-				BOOST_LOG_TRIVIAL(error) << "File not found: " << search->second.file_id;
+				BOOST_LOG_TRIVIAL(error) << "File not found: " << search->second->file_id;
 				return 1;
 			}
 			break;
@@ -233,7 +233,7 @@ int DBInterpreter::processAccessGeneric(ACC_ID accessId,
 	if ( search != referenceT_.end() ) {
 
 		(this->* func)(accessId, access, instruction, segment,
-					   call, search->second);
+					   call, *(search->second));
 
 	} else {
 		BOOST_LOG_TRIVIAL(error) << "Reference not found: " << access.reference_id;
@@ -475,7 +475,7 @@ int DBInterpreter::fillCall(sqlite3_stmt *sqlstmt) {
 							 end_time);
 
     std::cout << "read into call_t\n";
-    callT_.fill(id, *tmp);		 
+    callT_.fill(id, tmp);		 
     std::cout << "callT_ filled\n";
     return 0;
 }
@@ -487,7 +487,7 @@ int DBInterpreter::fillFile(sqlite3_stmt *sqlstmt) {
    file_t *tmp = new file_t(id,
 		                    file_path);
 
-   fileT_.fill(id, *tmp);	 
+   fileT_.fill(id, tmp);	 
    return 0;
 }
 
@@ -504,7 +504,7 @@ int DBInterpreter::fillFunction(sqlite3_stmt *sqlstmt) {
 		   	   	   	   	   	   	    file_id,
                                     line_number);
 
-   functionT_.fill(id, *tmp);
+   functionT_.fill(id, tmp);
    return 0;
 }
 
@@ -519,7 +519,7 @@ int DBInterpreter::fillInstruction(sqlite3_stmt *sqlstmt) {
 										  instruction_type,
 										  line_number);
 
-   instructionT_.fill(id, *tmp);
+   instructionT_.fill(id, tmp);
    return 0;
 }
 
@@ -530,7 +530,7 @@ int DBInterpreter::fillLoop(sqlite3_stmt *sqlstmt) {
    loop_t *tmp = new loop_t(id,
 		                    lineNumber);
 
-   loopT_.fill(id, *tmp);
+   loopT_.fill(id, tmp);
    return 0;
 }
 
@@ -545,7 +545,7 @@ int DBInterpreter::fillLoopExecution(sqlite3_stmt *sqlstmt) {
 			                                   parentIteration,
 											   loopDuration);
 
-	loopExecutionT_.fill(id, *tmp);
+	loopExecutionT_.fill(id, tmp);
 	return 0;
 }
 
@@ -558,7 +558,7 @@ int DBInterpreter::fillLoopIteration(sqlite3_stmt *sqlstmt) {
 			                                   loopExecution,
 											   loopIteration);
 
-	loopIterationT_.fill(id, *tmp);
+	loopIterationT_.fill(id, tmp);
 	return 0;
 }
 
@@ -575,7 +575,7 @@ int DBInterpreter::fillReference(sqlite3_stmt *sqlstmt) {
 		   	   	   	   	   	   	   	  name,
 		   	   	   	   	   	   	   	  allocinstr);
 
-   referenceT_.fill(id, *tmp);
+   referenceT_.fill(id, tmp);
    return 0;
 }
 
@@ -590,7 +590,7 @@ int DBInterpreter::fillSegment(sqlite3_stmt *sqlstmt) {
 		   	   	   	   	   	   	  segment_type,
 		   	   	   	   	   	   	  loop_pointer);
 
-   segmentT_.fill(id, *tmp);
+   segmentT_.fill(id, tmp);
    return 0;
 }
 
@@ -607,6 +607,6 @@ int DBInterpreter::fillThread(sqlite3_stmt *sqlstmt) {
 		   	   	   	   	   	   	child_thread_id,
 		   	   	   	   	   	   	parent_thread_id);
 
-   threadT_.fill(instruction_id, *tmp);
+   threadT_.fill(instruction_id, tmp);
    return 0;
 }

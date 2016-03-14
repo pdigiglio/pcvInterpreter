@@ -21,7 +21,7 @@ public:
 	DBTable();
 	~DBTable();
 
-	int get(const IdT& id, T** entry);
+	int get(const IdT& id, T* entry);
 	int fill(const IdT& id, const T& entry);
 	
 	iterator find(const IdT& id);

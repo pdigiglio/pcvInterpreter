@@ -20,11 +20,11 @@ int DBTable<IdT, T>::fill(const IdT& id, const T& entry) {
 }
 
 template<typename IdT, typename T>
-int DBTable<IdT, T>::get(const IdT& id, T** entry) {
+int DBTable<IdT, T>::get(const IdT& id, T* entry) {
 
 	auto search = map_.find(id);
 	if (search != map_.end()) {
-		*entry = &search->second;
+		*entry = search->second;
 		return IN_OK;
 	} else {
 		BOOST_LOG_TRIVIAL(error) << typeid(T).name()
