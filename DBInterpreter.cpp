@@ -89,8 +89,8 @@ int DBInterpreter::process() {
 int DBInterpreter::processInstruction(const instruction_t& ins) {
 
 	processAccess_t accessFunc = nullptr;
-	segment_t* segment = nullptr;
-	call_t* call = nullptr;
+	segment_t* segment         = nullptr;
+	call_t* call               = nullptr;
 
 	if ( segmentT_.get(ins.segment_id, &segment) == IN_OK) {  
 		switch( ins.instruction_type ) {
@@ -148,7 +148,7 @@ int DBInterpreter::processInstruction(const instruction_t& ins) {
 			if (searchAccess != accessT_.end()) {
 
 				processAccessGeneric(search->first,
-									 searchAccess->second,
+									 *(searchAccess->second),
 									 ins,
 									 *segment,
 									 *call,
@@ -453,7 +453,7 @@ int DBInterpreter::fillAccess(sqlite3_stmt *sqlstmt) {
 								 access_type,
 								 memory_state); 
 
-	accessT_.fill(id, *tmp);		 
+	accessT_.fill(id, tmp);		 
 	_insAccessMap[instruction_id].push_back(id); // create 1:n associations 
 	return 0;
 }

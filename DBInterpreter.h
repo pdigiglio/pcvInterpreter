@@ -50,7 +50,7 @@ private:
 	typedef std::map<REF_ID, ShadowVar*> shadowVarMap_t;
 
 	// members-----------------------------------------------------------------
-	DBTable<ACC_ID, access_t> accessT_;
+	DBTable<ACC_ID, const access_t*> accessT_;
 	DBTable<CAL_ID, call_t> callT_;
 	DBTable<FIL_ID, file_t> fileT_;
 	DBTable<FUN_ID, function_t> functionT_;
