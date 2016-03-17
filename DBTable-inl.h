@@ -50,6 +50,21 @@ typename DBTable<IdT, T>::const_iterator DBTable<IdT, T>::find(const IdT& id) co
 }
 
 template<typename IdT, typename T>
+T DBTable<IdT, T>::findAndCheck(const IdT& id, int *status) const {
+	auto search = map_.find(id);
+	if (search != map_.end()) {
+		*status = IN_OK;
+		return search->second;
+	} else {
+		BOOST_LOG_TRIVIAL(error) << typeid(T).name()
+								 << " not found: " << id;
+		*status = IN_NO_ENTRY;
+	}
+
+	return nullptr;
+}
+
+template<typename IdT, typename T>
 typename DBTable<IdT, T>::iterator DBTable<IdT, T>::begin() {
 	return map_.begin(); 
 }

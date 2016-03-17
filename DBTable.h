@@ -22,6 +22,7 @@ public:
 	~DBTable();
 
 	int get(const IdT& id, T* entry);
+	T findAndCheck(const IdT& id, int *status = nullptr) const;
 	int fill(const IdT& id, const T& entry);
 	
 	iterator find(const IdT& id);

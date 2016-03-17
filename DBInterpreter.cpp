@@ -89,49 +89,68 @@ int DBInterpreter::process() {
 int DBInterpreter::processInstruction(const instruction_t& ins) {
 
 	processAccess_t accessFunc = nullptr;
-	segment_t* segment         = nullptr;
-	call_t* call               = nullptr;
+	const segment_t* segment   = nullptr; // <- should this be constant? 
+	const call_t* call         = nullptr; // <- should this be constant?
 
-	if ( segmentT_.get(ins.segment_id, &segment) == IN_OK) {  
+	int status;
+//	if ( segmentT_.get(ins.segment_id, &segment) == IN_OK) {  
+	segment = segmentT_.findAndCheck(ins.segment_id, &status);
+	if (status == IN_OK) {
 		switch( ins.instruction_type ) {
 		case Instruction::CALL:
 				processSegment(ins.segment_id, *segment, ins);
 			break;
 		case Instruction::MEMACCESS:
-			if ( callT_.get(segment->call_id, &call) == IN_OK) {
+//			if ( callT_.get(segment->call_id, &call) == IN_OK) {
+			call = callT_.findAndCheck(segment->call_id, &status);
+			if (status == IN_OK) {
 				accessFunc = &DBInterpreter::processMemAccess;
 			}	
  			break;
 		case Instruction::ACQUIRE:
-			if ( callT_.get(segment->call_id, &call) == IN_OK) {
+//			if ( callT_.get(segment->call_id, &call) == IN_OK) {
+			call = callT_.findAndCheck(segment->call_id, &status);
+			if (status == IN_OK) {
 				accessFunc = &DBInterpreter::processAcqAccess;
 			}
 			break;
 		case Instruction::RELEASE:
-			if ( callT_.get(segment->call_id, &call) == IN_OK) {
+//			if ( callT_.get(segment->call_id, &call) == IN_OK) {
+			call = callT_.findAndCheck(segment->call_id, &status);
+			if (status == IN_OK) {
 				accessFunc = &DBInterpreter::processRelAccess;
 			}
 			break;
 		case Instruction::FORK:
 			{
-				thread_t *thread;
-				if ( threadT_.get(ins.instruction_id, &thread ) == IN_OK)
-					if (callT_.get(segment->call_id, &call) == IN_OK)
+				const thread_t *thread;
+//				if ( threadT_.get(ins.instruction_id, &thread ) == IN_OK)
+				thread = threadT_.findAndCheck(ins.instruction_id, &status);
+				if (status == IN_OK) {
+//					if (callT_.get(segment->call_id, &call) == IN_OK)
+					call = callT_.findAndCheck(segment->call_id, &status);
+					if (status == IN_OK)
 					processFork(ins,
 								*segment,
 								*call,
 								*thread);
+				}
 				break;
 			}
 		case Instruction::JOIN:
 			{
-				thread_t *thread;
-				if ( threadT_.get(ins.instruction_id, &thread ) == IN_OK)
-					if (callT_.get(segment->call_id, &call) == IN_OK)
+				const thread_t *thread;
+//				if ( threadT_.get(ins.instruction_id, &thread ) == IN_OK)
+				thread = threadT_.findAndCheck(ins.instruction_id, &status);
+				if (status == IN_OK) {
+//					if (callT_.get(segment->call_id, &call) == IN_OK)
+					call = callT_.findAndCheck(segment->call_id, &status);
+					if (status == IN_OK)
 					processJoin(ins,
 								*segment,
 								*call,
 								*thread);
+				}
 				break;
 			}
 		default:
