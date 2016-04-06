@@ -24,9 +24,9 @@ int main(int argc, char* argv[]) {
 	}
 
 	// create interpreter, event service, and saap runner
-	EventService *service = new EventService();
-	LockMgr *lockMgr = new LockMgr();
-	ThreadMgr *threadMgr = new ThreadMgr();
+	EventService *service      = new EventService();
+	LockMgr *lockMgr           = new LockMgr();
+	ThreadMgr *threadMgr       = new ThreadMgr();
 	DBInterpreter *interpreter = new DBInterpreter(argv[1],
 												   "SAAP.log",
 												   service,
