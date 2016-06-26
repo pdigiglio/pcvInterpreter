@@ -528,7 +528,7 @@ int DBInterpreter::fillAccess(sqlite3_stmt *sqlstmt) {
                                  access_type,
                                  memory_state); 
 
-    accessT_.fill(id, *tmp);         
+    accessT_.insert(id, *tmp);         
     _insAccessMap[instruction_id].push_back(id); // create 1:n associations 
     return 0;
 }
@@ -548,7 +548,7 @@ int DBInterpreter::fillCall(sqlite3_stmt *sqlstmt) {
                              start_time,
                              end_time);
 
-    callT_.fill(id, *tmp);       
+    callT_.insert(id, *tmp);       
     return 0;
 }
 
@@ -559,7 +559,7 @@ int DBInterpreter::fillFile(sqlite3_stmt *sqlstmt) {
    file_t *tmp = new file_t(id,
                             file_path);
 
-   fileT_.fill(id, *tmp);    
+   fileT_.insert(id, *tmp);    
    return 0;
 }
 
@@ -576,7 +576,7 @@ int DBInterpreter::fillFunction(sqlite3_stmt *sqlstmt) {
                                     file_id,
                                     line_number);
 
-   functionT_.fill(id, *tmp);
+   functionT_.insert(id, *tmp);
    return 0;
 }
 
@@ -591,7 +591,7 @@ int DBInterpreter::fillInstruction(sqlite3_stmt *sqlstmt) {
                                           instruction_type,
                                           line_number);
 
-   instructionT_.fill(id, *tmp);
+   instructionT_.insert(id, *tmp);
    return 0;
 }
 
@@ -602,7 +602,7 @@ int DBInterpreter::fillLoop(sqlite3_stmt *sqlstmt) {
    loop_t *tmp = new loop_t(id,
                             lineNumber);
 
-   loopT_.fill(id, *tmp);
+   loopT_.insert(id, *tmp);
    return 0;
 }
 
@@ -619,7 +619,7 @@ int DBInterpreter::fillLoopExecution(sqlite3_stmt *sqlstmt) {
                                                parentIteration,
                                                loopDuration);
 
-    loopExecutionT_.fill(id, *tmp);
+    loopExecutionT_.insert(id, *tmp);
     return 0;
 }
 
@@ -634,7 +634,7 @@ int DBInterpreter::fillLoopExecution(sqlite3_stmt *sqlstmt) {
 //                                               loopExecution,
 //                                               loopIteration);
 //
-//    loopIterationT_.fill(id, *tmp);
+//    loopIterationT_.insert(id, *tmp);
 //    return 0;
 //}
 
@@ -651,7 +651,7 @@ int DBInterpreter::fillReference(sqlite3_stmt *sqlstmt) {
             name,
             allocinstr);
 
-    referenceT_.fill(id, *tmp);
+    referenceT_.insert(id, *tmp);
     return 0;
 }
 
@@ -666,7 +666,7 @@ int DBInterpreter::fillSegment(sqlite3_stmt *sqlstmt) {
                                   segment_type,
                                   loop_pointer);
 
-   segmentT_.fill(id, *tmp);
+   segmentT_.insert(id, *tmp);
    return 0;
 }
 
@@ -691,6 +691,6 @@ int DBInterpreter::fillThread(sqlite3_stmt *sqlstmt) {
                                 parent_thread_id,
                                 process_id);
 
-   threadT_.fill(id, *tmp);
+   threadT_.insert(id, *tmp);
    return 0;
 }
