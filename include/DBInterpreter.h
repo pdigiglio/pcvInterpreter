@@ -56,9 +56,8 @@ class DBInterpreter : public Interpreter {
 public:
 	DBInterpreter(const char* DBPath, const char* logFile, 
 				  EventService *service, LockMgr *lockMgr, ThreadMgr *threadMgr);
-	int process() override;
-	EventService* getEventService() override;
-	~DBInterpreter();
+	virtual int process() override final;
+	virtual EventService* getEventService() override final { return _eventService; };
 
 private:
 
