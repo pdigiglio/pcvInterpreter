@@ -55,7 +55,10 @@ class ThreadMgr;
 class DBInterpreter : public Interpreter {
 public:
 	DBInterpreter(const char* DBPath, const char* logFile, 
-				  EventService *service, LockMgr *lockMgr, ThreadMgr *threadMgr);
+			EventService *service, LockMgr *lockMgr, ThreadMgr *threadMgr)
+	: Interpreter(lockMgr, threadMgr, logFile), _dbPath(DBPath), _logFile(logFile),
+		_eventService(service)
+		{};
 	virtual int process() override final;
 	virtual EventService* getEventService() override final { return _eventService; };
 
@@ -96,9 +99,9 @@ private:
 	static InstructionType transformInstrType(const instruction_t& ins);
 	static ReferenceType getVarType(ReferenceType memType);
 
-	int loadDB(const char* path, sqlite3 **db);
-	int closeDB(sqlite3 **db);
-	int importDataBase(sqlite3 **db);
+	int loadDB(const char* path, sqlite3 **db) const;
+	int importDB(sqlite3 **db);
+	int closeDB(sqlite3 **db) const;
 
 	template<typename IdT, typename T>
 	int fillGeneric(const char *sql, sqlite3 **db, DBTable<IdT, T>* table);
