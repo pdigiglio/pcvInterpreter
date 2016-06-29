@@ -29,12 +29,12 @@
 class EventService {
 public:
 	EventService() {}
-	bool publish(NewThreadEvent *event);
-	bool publish(JoinEvent *event);
-	bool publish(AcquireEvent *event);
-	bool publish(ReleaseEvent *event);
-	bool publish(AccessEvent *event);
-	bool publish(CallEvent *event);
+	bool publish(const NewThreadEvent *event);
+	bool publish(const JoinEvent *event);
+	bool publish(const AcquireEvent *event);
+	bool publish(const ReleaseEvent *event);
+	bool publish(const AccessEvent *event);
+	bool publish(const CallEvent *event);
 	bool subscribe(Tool* tool, const Filter* filter, enum Events events);
 	bool unsubscribe(Tool* tool);
 
