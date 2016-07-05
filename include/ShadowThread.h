@@ -24,8 +24,8 @@ public:
 
 	const ThreadId threadId;
 
-	CALLSITE currentCallSiteID;
-	FUN_SG currentFunctionSignature; 
+//	CALLSITE currentCallSiteID;
+//	FUN_SG currentFunctionSignature; 
 
 	bool operator < (const ShadowThread& other) const { return threadId < other.threadId; };
 
