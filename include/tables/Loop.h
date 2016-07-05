@@ -16,11 +16,11 @@
 
 typedef struct loop_t {
     LOP_ID sql_id;
-    unsigned line_number;
+    LIN_NO line_number;
 
     explicit
     loop_t(LOP_ID sqlID,
-           int lineNumber)
+           LIN_NO lineNumber) noexcept
         : sql_id(sqlID), line_number(lineNumber)
     {}
 

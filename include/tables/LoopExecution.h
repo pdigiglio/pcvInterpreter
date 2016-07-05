@@ -24,7 +24,7 @@ typedef struct loopExecution_t {
     loopExecution_t(LOE_ID sqlID,
                     LOE_ID loopID,
                     int parentIteration,
-                    int loopDuration)
+                    int loopDuration) noexcept
                     : sql_id(sqlID), loop_id(loopID),
                       parent_iteration(parentIteration), loop_duration(loopDuration)
     {}
