@@ -79,7 +79,7 @@ private:
 												  const call_t& call,
 												  const reference_t& reference);
 
-	typedef std::map<REF_ID, ShadowVar*> shadowVarMap_t;
+	typedef std::map<REF_ID, const ShadowVar*> shadowVarMap_t;
 
 	// members-----------------------------------------------------------------
 	AccessTable        accessTable;

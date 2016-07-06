@@ -16,21 +16,22 @@
  *****************************************************************************/
 class ShadowVar {
 public:
-	ShadowVar(const ReferenceType Type,
-			  const REF_ID Id,
-			  const REF_SIZE Size,
-			  const REF_NAME Name)
-				 : ptr(nullptr), type(Type), id(Id), //addr(Addr),
-				   size(Size), name(Name) {}
+	ShadowVar(const reference_t& r)
+				 : type(r.memory_type), id(r.id) //addr(Addr), ptr(nullptr)
+//				   size(r.size) //, name(r.name)
+	{}
 
-	void* ptr;
+	const REF_ID& getId() const { return id; }
+	const ReferenceType& getType() const { return type; }
 
-	const ReferenceType type;
-	const REF_ID id;
-	const REF_SIZE size;
-	const REF_NAME name;
 
 private:
+//	void* ptr;
+	const ReferenceType type;
+	const REF_ID id;
+//	const REF_SIZE size;
+//	const REF_NAME name;
+
 	// prevent generated functions
 	ShadowVar(const ShadowVar&);
 	ShadowVar& operator=(const ShadowVar&);

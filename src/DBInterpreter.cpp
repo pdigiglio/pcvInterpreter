@@ -350,15 +350,30 @@ int DBInterpreter::processMemAccess(ACC_ID accessId,
                                     const call_t& call,
                                     const reference_t& reference) {
 
-    ShadowVar *var = 0;
+    const ShadowVar *var = nullptr;
     auto searchVar = _shadowVarMap.find(reference.id);
     if ( searchVar != _shadowVarMap.end() ) {
         var = searchVar->second;
     } else {
-        var = new ShadowVar(reference.memory_type,
-                            reference.id,
-                            reference.size,
-                            reference.name);
+		try
+		{
+//			std::cout // << (int) reference.memory_type << " "
+//				<< reference.id << " " 
+//				<< reference.size << " "
+//				<< reference.name << std::endl;
+			reference_t temp_obj(reference);
+			var = new ShadowVar(temp_obj);
+		}
+		catch (std::bad_alloc& ba)
+		{
+
+			std::cout << "bad_alloc caught: " << ba.what() << std::endl;
+
+//			std::cout << (int) reference.memory_type << " "
+//				<< reference.id << " " 
+//				<< reference.size << " "
+//				<< reference.name << std::endl;
+		}
         _shadowVarMap[reference.id] = var;
     }
 

@@ -27,6 +27,11 @@ struct StrongTypedef {
 		: Value_(value)
 		{}
 
+//	/// \brief Copy constructor
+//	StrongTypedef(const StrongTypedef& input)
+//		: Value_(input.Value_)
+//		{}
+
 	/// \brief Implicit conversion operator.
 	/// A return by value is used sice I assume the
 	/// underlying type should be a primitive.

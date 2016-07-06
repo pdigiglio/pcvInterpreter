@@ -21,9 +21,9 @@
 struct AccessInfo {
 	AccessType type;
 	INS_ID instructionID;
-	ShadowVar *var;
+	const ShadowVar *var;
 
-	AccessInfo(AccessType Type, ShadowVar *Var, INS_ID instructionID)
+	AccessInfo(AccessType Type, const ShadowVar *Var, INS_ID instructionID)
 		: type(Type), instructionID(instructionID), var(Var) {}
 };
 

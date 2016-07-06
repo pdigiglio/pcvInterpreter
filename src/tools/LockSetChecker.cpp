@@ -56,10 +56,10 @@ void LockSetChecker::release(const Event* e) {
 void LockSetChecker::access(const Event* e) {
 
 	const AccessEvent *event = dynamic_cast<const AccessEvent*>(e);
-	const REF_ID ref = event->getAccessInfo()->var->id;
+	const REF_ID ref = event->getAccessInfo()->var->getId();
 	const TRD_ID threadId = event->getThread()->threadId;
 
-	if (event->getAccessInfo()->var->type == ReferenceType::STACK)
+	if (event->getAccessInfo()->var->getType() == ReferenceType::STACK)
 		return;
 
 	switch(event->getAccessInfo()->type) {
