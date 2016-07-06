@@ -10,7 +10,6 @@ set(SRC_LIST
 	Interpreter.cpp
 	LockMgr.cpp
 	main.cpp
-	SAAPRunner.cpp
 	ThreadMgr.cpp)
 
 set(SRC_LIST ${SRC_LIST}
