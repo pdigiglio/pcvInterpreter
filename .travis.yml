@@ -32,4 +32,4 @@ notification:
 script:
     - if [ "$CXX" = "g++" ]; then export CXX="g++-6" CC="gcc-6"; fi
     - mkdir build && cd build
-    - cmake .. && make -j
+    - cmake .. && make -j && make pcv_test -j && ./test/pcv_test
