@@ -65,6 +65,24 @@ set(CMAKE_CXX_FLAGS "-fPIC -DBIGARRAY_MULTIPLIER=1 -pedantic -g -Wall -Wno-unkno
 #set(CMAKE_C_FLAGS   "-fPIC -DBIGARRAY_MULTIPLIER=1 -g -Wall -Wno-unknown-pragmas -march=native" )
 set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-Bsymbolic ${CMAKE_SHARED_LINKER_FLAGS} ")
 
+# Download EasyLogging++ from its Github repository
+include(ExternalProject)
+set(EASYLOGGINGPP_SOURCE_DIR ${pcv_SOURCE_DIR}/external/easyloggingpp)
+ExternalProject_Add(
+    easyloggingpp
+    DOWNLOAD_DIR      ${EASYLOGGINGPP_SOURCE_DIR}
+    GIT_REPOSITORY    https://github.com/easylogging/easyloggingpp
+    UPDATE_COMMAND    ${GIT_EXECUTABLE} pull origin master
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND     ""
+    INSTALL_COMMAND   ""
+    LOG_DOWNLOAD      ON)
+set_target_properties(easyloggingpp PROPERTIES EXCLUDE_FROM_ALL TRUE)
+ExternalProject_Get_Property(easyloggingpp source_dir)
+
+# Add EasyLogging++'s includes
+set(EasyLoggingpp_INCLUDES ${source_dir}/src)
+
 # Add subdirectories
 find_package(Git)
 if (GIT_FOUND)
@@ -81,6 +99,8 @@ find_path(GTEST_INC_PATH gtest/gtest.h)
 if (GTEST_LIB AND GTEST_INC_PATH)
     # Add test target
     enable_testing()
+    add_subdirectory(test)
+    add_test(NAME DatabaseTest COMMAND pcv_test)
 else ()
     message(WARNING "GTest not found: please install it if you want to run the tests.")
 endif ()
